@@ -9,6 +9,7 @@ public class Controller {
 
     @GetMapping("/test")
     public String test() {
-        return "Hello World";
+        return "🚀 UV Power Spring Boot Docker App Running!";
     }
+
 }
