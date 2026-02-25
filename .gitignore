@@ -31,4 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
-/src/main/java/power/in/Powerdemo/Controller.java
+/src/main/java/com/uv/core/Controller.java

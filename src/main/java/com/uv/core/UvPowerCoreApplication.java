@@ -1,13 +1,13 @@
-package power.in.Powerdemo;
+package com.uv.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class PowerdemoApplication {
+public class UvPowerCoreApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(PowerdemoApplication.class, args);
+		SpringApplication.run(UvPowerCoreApplication.class, args);
 	}
 
 }
