@@ -1,14 +1,13 @@
 spring:
   datasource:
-    url: jdbc:postgresql://aws-1-ap-southeast-1.pooler.supabase.com:5432/postgres?user=postgres.oqorepdnffxiqqgdthoy&password=Uvpower@2858
-#    username: uv-power-db
-#    password: your_database_password
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update   # change to validate in production
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true
