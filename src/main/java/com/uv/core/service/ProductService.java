@@ -1,11 +1,14 @@
 package com.uv.core.service;
 
 import com.cloudinary.Cloudinary;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uv.core.model.Category;
 import com.uv.core.model.Product;
 import com.uv.core.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,4 +49,34 @@ public class ProductService {
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
+
+
+
+
+
+    @CachePut(value = "products")
+    public Product updateCategory(Long id, String product, MultipartFile file) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        Product productEntity = productRepository.findById(id).orElse(null);
+        Product productObj = mapper.readValue(product, Product.class);
+        if (productEntity != null) {
+            if(file!=null){
+                String folder = "uv_power/categories";
+                String imageName = productObj.getProductName().replaceAll(" ", "_") + "_" + System.currentTimeMillis();
+                Map result = imageUploadService.uploadImage(file, folder, imageName);
+                String imageUrl = result.get("secure_url").toString();
+                productEntity.setImageUrl(imageUrl);
+            }
+            productEntity.setProductName(productObj.getProductName());
+            productEntity.setCategory(productObj.getCategory());
+            productEntity.setDescription(productObj.getDescription());
+            productEntity.setPrice(productObj.getPrice());
+            productEntity.setStatus(productObj.getStatus());
+            productEntity.setStock(productObj.getStock());
+            productRepository.save(productEntity);
+            return productEntity;
+        }
+        return productObj;
+    }
+
 }

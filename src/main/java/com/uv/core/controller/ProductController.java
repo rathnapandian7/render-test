@@ -1,6 +1,7 @@
 package com.uv.core.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.uv.core.model.Category;
 import com.uv.core.model.Product;
 import com.uv.core.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -24,18 +25,17 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @PostMapping(value = "/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Product addProduct(@RequestPart("product") String productJson,@RequestPart("file") MultipartFile file) throws IOException {
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Product addProduct(@RequestPart("product") String productJson, @RequestPart("file") MultipartFile file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Product productObj = mapper.readValue(productJson, Product.class);
-        return productService.saveProduct(productObj,file);
+        return productService.saveProduct(productObj, file);
     }
 
-//    @PutMapping("/{id}")
-//    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) throws IOException {
-//        product.setId(id);
-//        return productService.saveProduct(product);
-//    }
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Product updateCategory(@PathVariable Long id, @RequestPart("product") String product, @RequestPart(value = "file",required = false) MultipartFile file) throws IOException {
+        return  productService.updateCategory(id, product,file);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {

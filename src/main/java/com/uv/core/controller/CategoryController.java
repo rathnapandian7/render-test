@@ -26,18 +26,20 @@ public class CategoryController {
 
     @GetMapping
     public List<Category> getAll() {
-        List<Category> cait=categoryService.getAllCategories();
-        return cait;
+        return categoryService.getAllCategories();
     }
-    @PostMapping(value = "/add",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Category addCategory(@RequestPart("category") String category,@RequestPart("file") MultipartFile file) throws IOException {
+
+    @PostMapping(value = "/add", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Category addCategory(@RequestPart("category") String category, @RequestPart("file") MultipartFile file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         Category categoryObj = mapper.readValue(category, Category.class);
-        return categoryService.saveCategory(categoryObj,file);
+        return categoryService.saveCategory(categoryObj, file);
     }
 
-
-
+    @PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Category updateCategory(@PathVariable Long id, @RequestPart("category") String category, @RequestPart(value = "file",required = false) MultipartFile file) throws IOException {
+        return  categoryService.updateCategory(id, category,file);
+    }
 
     @DeleteMapping("/{id}")
     public void deleteCategory(@PathVariable Long id) {
